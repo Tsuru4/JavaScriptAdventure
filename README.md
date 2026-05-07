@@ -42,4 +42,4 @@ Libraries：
 - [ ] Apply javascript techniques to update text using buttons.
 - [ ] Create the story up to 3 sections.
 - [ ] Create art work.
-- [ ] Fill out story branches up to 3 to the 7th.
+- [ ] Fill out story branches up to 3 time 18.
