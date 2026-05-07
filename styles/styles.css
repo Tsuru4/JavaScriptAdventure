@@ -1,0 +1,32 @@
+
+#long-artbox {
+    background-color: grey;
+    height: 40px;
+}
+
+#storybox {
+    background-color: burlywood;
+}
+
+#questionbox {
+    background-color: lightblue;
+    height: 40px;
+}
+
+.threeboxes {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 40px;
+}
+
+.buttonbox {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: lightblue;
+}
+
+.artbox {
+    background-color: grey;
+}

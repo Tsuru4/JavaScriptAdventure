@@ -5,20 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose your own adventure | Home</title>
     <link rel="stylesheet" type="text/css" href="styles/styles.css" />
-    <script type = "text/javascript" src = "scripts/helloworld.js"> </script>
+    <script type = "text/javascript" src = "scripts/Storyteller.js"> </script>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html">Home</a>
-        </nav>
-        <main>
-            <h1>Choose Your Own Adventure</h1>
-            <p>This site is still underdevelopment</p>
-            <p>Once complete, it will present to you a choose your own adventure story.</p>
-            <p>Come back after May 10th of 2026.</p>
-            <input type="button" onclick = "sayHello()" value = "Click me!"/> 
-        </main>
-    </header>
+    <div id="contents">
+        <header>
+            <nav>
+                <a href="index.html">Home</a>
+            </nav>
+            <main>
+                <div id="long-artbox"></div>
+                <div id="storybox">
+                    <input type="button" onclick = "sayHello()" value = "Click me!"/> 
+                    <h1>Choose Your Own Adventure</h1>
+                    <p>This site is still under development</p>
+                    <p>Once complete, it will present to you a choose your own adventure story.</p>
+                    <p>Come back after May 10th of 2026.</p> 
+                    
+                </div>
+
+                <div id="questionbox"></div>
+                <div class="threeboxes">
+                    <div class= "buttonbox">
+                        <input type="button" onclick="updatePath(1)" value = "Path One"/>
+                    </div>
+                    <div class= "buttonbox">
+                        <input type="button" onclick="updatePath(2)" value = "Path Two"/>
+                    </div>
+                    <div class= "buttonbox">
+                        <input type="button" onclick="updatePath(3)" value = "Path Three"/>
+                    </div>
+                </div>
+
+                <div class="threeboxes">
+                    <div class="artbox"></div>
+                    <div class="artbox"></div>
+                    <div class="artbox"></div>
+                </div>
+            </main>
+        </header>
+    </div>
 </body>
 </html>
