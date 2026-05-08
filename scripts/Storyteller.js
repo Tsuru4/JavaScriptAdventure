@@ -350,15 +350,3 @@ function updatePath(pathNumber)
     }
     
 }
-
-//This is recursion practice for myself. In terms of the project, this function is to simulate a battle minigame between the user and the npcs. 
-// I found a different excuse to use recursion. This function wasn't suitable for this program.
-function rockPaperScissors(remainingTries)
-{
-    //Base case: If remaining tries is less than 0, return false.
-    //get input from the user.
-    //compare with the input from the character.
-    //if the player wins, return true.
-    //if player loses, return false.
-    //if player ties, call rockPaperScissors(-1)
-}
