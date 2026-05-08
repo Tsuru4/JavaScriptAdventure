@@ -6,52 +6,97 @@
 
 //There is some data which is simply not available at the construction of the chapters. Example, the user's custom name for the main character is set during the telling of chapter one.
 //As such, every Chapter will need to be able to check the previous chapters for this data (assuming previous chaper exists). As such, every chapter should have a method to give said data to a requesting chapter.
-//So every chapter needs the following Methods: retrievePassdown(), passdown() 
+//TODO every chapter needs the following Methods: retrievePassdown(), passdown() 
 class Chapter {
     constructor(paragraphs, question, buttonLabels){
         this.paragraphs = paragraphs;
         this.question = question;
         this.buttonLabels = buttonLabels;
+        
+        //this may be unnessary, but I want to avoid any risk of false positives that could arise from leaving this array undefined.
+        this.isMinigames = [];
+        for (let i = 0; i < buttonLabels.length; i++)
+        {
+            this.isMinigames.push(false);
+        }
+    }
+
+    //isMinigames must be an array of booleans equal in length to buttonLabels
+    //minigameExplanation is a string.
+    //minigameButtons is an array of strings
+    //badPath is a string
+    setupMinigameFields(isMinigames,minigameExplanation,minigameButtons,badPath){
+        this.isMinigames = isMinigames;
+        this.minigameExplanation = minigameExplanation;
+        this.minigameButtons = minigameButtons;
+        this.badPath = badPath;
+    }
+
+
+    //trigger minigame. If minigame is lost, trigger the badPath
+    updateMiniGame(buttonPath){
+        //This line writes replaces this chapter's question with the minigame prompt.
+        document.getElementById("questionbox").innerHTML = "<p>" + this.minigameExplanation + "</p>"; 
+        //This block generates deletes the old buttons and replaces them with minigame buttons
+        var buttonField = document.getElementById("button-field");
+        buttonField.innerHTML = "";
+
+        for (let i = 0; i < this.minigameButtons.length; i++)
+        {
+            buttonField.innerHTML +=
+                    "<div class= 'buttonbox'>" +
+                        "<input type='button' onclick=\"updatePath('" + buttonPath + "')\" value = '" + this.minigameButtons[i] + "'/>" +
+                    "</div>";
+        }
+
     }
 
     //This method will be very messy. Most of the story script will probably run through here.
+    //this method updates the storybox, questionbox, and buttonbox with this chapter's fields.
     updateStorybox(){
 
-    //! Note: Some of the player's choices will trigger minigames. The storybox should only be updated AFTER the minigame has been resolved!
+        //This block writes the story block.
+        //? Maybe it would be more cool if this code kept the previous chapter's text and mereley appended to the story? All I would need to do is change the innerHTML = to +=
+        var storyboxDiv = document.getElementById("storybox");
+        storyboxDiv.innerHTML = "<h1>Chapter " + pathLog.length + "</h1>";    
+        for (let i = 0; i < this.paragraphs.length; i++)
+        {
+            storyboxDiv.innerHTML += "<p>" + this.paragraphs[i] + "</p>";
+        }
 
-    //TODO implement a minigame check here.
+        //This line writes this chapter's question.
+        document.getElementById("questionbox").innerHTML = "<p>" + this.question + "</p>"; 
 
+        //This block generates new buttons.
+        var buttonField = document.getElementById("button-field");
+        buttonField.innerHTML = "";
+        for (let i = 0; i < this.buttonLabels.length; i++)
+        {
+            var currentButtonLabel = this.buttonLabels[i]; 
+            var buttonPath = "Path" + (i+1);
 
-    var storyboxDiv = document.getElementById("storybox");
-    storyboxDiv.innerHTML = "<h1>Chapter " + pathLog.length + "</h1>";    
+            console.log("Generating button for " + buttonPath);
+            console.log("Is minigame: " + this.isMinigames[i]);
 
-    for (let i = 0; i < this.paragraphs.length; i++)
-    {
-        storyboxDiv.innerHTML += "<p>" + this.paragraphs[i] + "</p>";
-    }
+            if (this.isMinigames[i])
+            {
+                buttonField.innerHTML +=    
+                    "<div class= 'buttonbox'>" +
+                        "<input type='button' onclick=\"triggerMinigame('" + buttonPath + "')\" value = '" + currentButtonLabel + "'/>" +
+                    "</div>";
+            }
+            else
+            {
+                buttonField.innerHTML +=
+                    "<div class= 'buttonbox'>" +
+                        "<input type='button' onclick=\"updatePath('" + buttonPath + "')\" value = '" + currentButtonLabel + "'/>" +
+                    "</div>";
+            }
 
-    document.getElementById("questionbox").innerHTML = "<p>" + this.question + "</p>"; 
-
-    var buttonField = document.getElementById("button-field");
-
-    buttonField.innerHTML = "";
-
-    for (let i = 0; i < this.buttonLabels.length; i++)
-    {
-
-        var currentButtonLabel = this.buttonLabels[i];
-        //! At the moment, I am not entirely certain this part works exactly as intended. 
-        var buttonPath = "Path" + (i+1);
-
-        console.log(buttonPath);
-
-        buttonField.innerHTML +=
-            "<div class= 'buttonbox'>" +
-                "<input type='button' onclick=\"updatePath('" + buttonPath + "')\" value = '" + currentButtonLabel + "'/>" +
-            "</div>";
-
-    }
-
+            //set up the minigame in the relevant buttons.
+            //The minigame map will not affect all buttons. Buttons that it does affect will need to be changed.
+            //minigame = [affectedPathIndex, minigameExplanation, minigameButtons, newPaths]
+        }
     }
 }
 
@@ -66,23 +111,18 @@ var pathLog = [];
 var storyPages = [];
 
 //Each chapter will need alternatives for the user to choose from.
-//Each chapter should follow this structure: storyPages[0] = [Chapter's Common Dictionary, "Path 1 specific dictionary", "Path 2 dict", "Path 3 dict"]
-//The common dictionary at index 0 will be reserved for information which is chapter specifc yet will be static regardless of the path choice, such as the prompt string. It might not be used, but it is better to store information here.
 //Because this data has a clear structure and a set amount of elements, it may be better to use maps for these inner layers instead of arrays.
 
 // * Chapter initialization
-//TODO There should be 18 chapters total.
+//TODO There should be alternate variations to every chapter (aside from chapter 1).
 //This variable, chapterTotal, may be temporaily changed for testing purposes. Remember to set it back to 18 after completing any tests.
 let chapterTotal = 18;
 for (let i = 0; i < chapterTotal; i++)
 {
     storyPages.push(new Map([
-        ["Common",""],
         ["Path1",""],
     ]));
 }
-
-//Because each chapter has consistent fields and also needs to be able to preform certain actions, they may work best with a class.
 
 //TODO The following needs further development to complete the story.
 //At the moment, this block of code fleshes out only the bare minimum story template for the purposes of testing.
@@ -95,7 +135,22 @@ storyPages[0].set("Path1", new Chapter(
     ["Air","Water","Earth","Fire"]));
 
 storyPages[1].set("Path1", new Chapter(
-    ["Protagonist's dad is evil."],
+    ["He felt drawn to the book on air related superpowers, almost as if he was destined to read it.", "After practicing for a few years, he developed his own specialty. Now he can generate his own lightning!","One day, our protagonist realized that his dad is evil."],
+    "What should he do?",
+    ["Stop him"]));
+
+storyPages[1].set("Path2", new Chapter(
+    ["He reluctantly picked up the book on water powers. But he has absolutely no talent for superpowers. His older brothers both laugh at him.","One day, our protagonist's dad is evil."],
+    "What should he do?",
+    ["Stop him, somehow?"]));
+
+storyPages[1].set("Path3", new Chapter(
+    ["He picked up the book on earth. It was a bit dry, but he did like the parts about controlling various metals.", "After years of practice, he develops his own variation of superpowers, magnetism.","Protagonist's dad is evil."],
+    "What should he do?",
+    ["Stop him"]));
+
+storyPages[1].set("Path4", new Chapter(
+    ["He picked up the book on fire. The book claims that fire is the most powerful element, but when he tried to spar against his brothers, he was easily overpowered. Dumb book was all talk, but his father told him to stick with it.","After years of reluctant practice, he developed his own variation of the book's fire powers, lightning! This variation is much stronger. He can beat the younger of his two older brothers now, but his oldest brother is still the strongest.","Protagonist's dad is evil."],
     "What should he do?",
     ["Stop him"]));
 
@@ -155,12 +210,12 @@ storyPages[12].set("Path1", new Chapter(
     ["Flirt back"]))
 
 storyPages[13].set("Path1", new Chapter(
-    ["A world domination organization invites you to a meeting."],
+    ["A world domination organization invites him to a meeting."],
     "Does he accept?",
     ["No"]))
 
 storyPages[14].set("Path1", new Chapter(
-    ["The organization reveals that an alien invasion is approaching. They need to conquer your city as an asset to repel the invasion."],
+    ["The organization reveals that an alien invasion is approaching. They need to conquer his city as an asset to repel the invasion."],
     "",
     ["Save the earth his own way"]))
 
@@ -177,6 +232,10 @@ storyPages[16].set("Path1", new Chapter(
 storyPages[17].set("Path1", new Chapter(
     ["The end!"],
     "",[]))
+
+//sets a minigame for the scenario where the protagonist battles his dad in chapter 2    
+storyPages[1].get("Path1").setupMinigameFields([true],"He attempts to attack his dad. Choose his attack!",["Gun","Powers"],"BadPath1");
+
 }
 
 //This function below is a Hello World function. It isn't necessary for the actual project.
@@ -196,6 +255,12 @@ function sayHello()
     console.log("Hello, World! Congratulations on finding the console!");
 }
 
+function triggerMinigame(buttonPath)
+{
+    var pathNumber = pathLog[pathLog.length-1];
+    storyPages[pathLog.length-1].get(pathNumber).updateMiniGame(buttonPath);
+}
+
 function updatePath(pathNumber)
 {
     //Sends a message to the console log. This helps me with future troubleshooting if any buttons do not behave correctly. 
@@ -203,19 +268,27 @@ function updatePath(pathNumber)
 
     pathLog.push(pathNumber);
     console.log("pathLog length: " + pathLog.length);
+
+    //This error message should normally be triggered if the user escapes the story path. If the story path is closed correctly, it should never trigger.
     if (pathLog.length > chapterTotal)
     {
-        alert("Warning. The number of choices has exceeded the expected length! The log shows you have now made " + pathLog.length + " choices!");
+        alert("Warning. The number of choices you made has somehow exceeded the expected amount! The log shows you have now made " + pathLog.length + " choices!");
         //removes buttons
         document.getElementById("button-field").innerHTML = "";
     }
-    else{
-
-    //change this. updateStorybox can be done by the Chapter, so it should be rewritten into a method of Chapter
-    //TODO 
-
-    console.log(storyPages[pathLog.length-1].get(pathNumber));
-    storyPages[pathLog.length-1].get(pathNumber).updateStorybox();
+    else
+    {
+        console.log(storyPages[pathLog.length-1].get(pathNumber));
+        //If the button held an invalid path, that selection gets removed here. Hopefully, this prevents the user from escaping the story path, even when the story path was written poorly.
+        if (storyPages[pathLog.length-1].get(pathNumber) == undefined)
+        {
+            alert("Warning. This button does not work.");
+            pathLog.pop();
+        }
+        else{
+            // * The core of the code happens here. Everything else was just to filter out errors. 
+            storyPages[pathLog.length-1].get(pathNumber).updateStorybox();
+        }
     }
     
 }
