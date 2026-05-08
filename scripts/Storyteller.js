@@ -1,8 +1,11 @@
-//TODO Expand the writing in this class to further fit my vision.
+//TODO Expand the writing in the chapter class to further fit my vision.
 // * Ideally, this class would be written in its own JavaScript file, but I don't know how using multiple files works, and I don't want to mess with that yet. For now, it will stay here at the top at the bottom of Storyteller. I will carefully move it to its own file when I feel more confident.
 //Every Chapter will need the following fields: Text in paragraph form. This should probably be an array, to allow for a dynamic amount of paragraphs.
 //Every Chapter (excluding the final chapter) will need the following string fields: a question, and around 3 unique choices (an array of button labels) for the user to respond for the question.
 //All of these strings are required as input(from the main porgram, not the user) at construction.
+
+//TODO in hindsight, a button or branch class would have made this entire project more flexible.
+
 
 //There is some data which is simply not available at the construction of the chapters. Example, the user's custom name for the main character is set during the telling of chapter one.
 //As such, every Chapter will need to be able to check the previous chapters for this data (assuming previous chaper exists). As such, every chapter should have a method to give said data to a requesting chapter.
@@ -13,7 +16,7 @@ class Chapter {
         this.question = question;
         this.buttonLabels = buttonLabels;
         
-        //this may be unnessary, but I want to avoid any risk of false positives that could arise from leaving this array undefined.
+        //This is to avoid false positives that arise in updateStorybox() from leaving this array undefined.
         this.isMinigames = [];
         for (let i = 0; i < buttonLabels.length; i++)
         {
@@ -21,10 +24,14 @@ class Chapter {
         }
     }
 
-    //isMinigames must be an array of booleans equal in length to buttonLabels
+    // * This function acts as a supplement to the constructor. These fields are not required for a chapter to work.
+    // ? In hindsight, this may have been better to write a child class of Chapter called ChapterWithMinigame. Most Chapters do not need the fields and behavior written here.
+    //isMinigames must be an array of booleans equal in length to buttonLabels.
     //minigameExplanation is a string.
-    //minigameButtons is an array of strings
-    //badPath is a string
+    //minigameButtons is an array of strings for labeling the buttons. The first string is the win condition.
+    //badPath is a string. It is the path for minigame failure.
+    // * It is recommended to use this function directly after construction of a chapter if a minigame is wanted.
+    // ! For now, use this feature sparingly, as in the future I intend to replace it entirely and set up a child of Chapter for ChapterWithMinigame.
     setupMinigameFields(isMinigames,minigameExplanation,minigameButtons,badPath){
         this.isMinigames = isMinigames;
         this.minigameExplanation = minigameExplanation;
@@ -32,8 +39,33 @@ class Chapter {
         this.badPath = badPath;
     }
 
+    //recursively shuffle an array
+    //returns the shuffled array.
+    shuffleArray(oldArray){
 
-    //trigger minigame. If minigame is lost, trigger the badPath
+        if (oldArray.length > 1 && Array.isArray(oldArray))
+        {
+            //generate a random index number
+            var randomIndex = Math.floor(Math.random() * oldArray.length);
+            //set the index number to the new array
+            var newArray = [oldArray[randomIndex]];
+
+            //remove the shuffled value to avoid being repeated 
+            for (let i = randomIndex; i + 1 < oldArray.length; i++)
+            {
+                oldArray[i] = oldArray[i+1]
+            }
+            oldArray.pop();
+
+            newArray = newArray.concat(this.shuffleArray(oldArray));
+
+            return newArray;
+        }
+        return oldArray;
+    }
+
+    //trigger minigame. If minigame is lost, trigger badPath. If minigame is won, trigger the original buttonPath
+    //The first button in the button list should be the win condition.
     updateMiniGame(buttonPath){
         //This line writes replaces this chapter's question with the minigame prompt.
         document.getElementById("questionbox").innerHTML = "<p>" + this.minigameExplanation + "</p>"; 
@@ -41,15 +73,41 @@ class Chapter {
         var buttonField = document.getElementById("button-field");
         buttonField.innerHTML = "";
 
+
+        var answerKey = new Map([
+            [this.minigameButtons[0],"win"]
+        ]); 
+        for (let i = 1; i < this.minigameButtons.length; i++)
+        {
+            answerKey.set(this.minigameButtons[i],"lose");
+        }
+
+        this.minigameButtons = this.shuffleArray(this.minigameButtons);
+
+
+        console.log(answerKey);
         for (let i = 0; i < this.minigameButtons.length; i++)
         {
-            buttonField.innerHTML +=
+            console.log(answerKey.get(this.minigameButtons[i]));
+            console.log(this.minigameButtons[i]);
+            if (answerKey.get(this.minigameButtons[i]) == "lose")
+            {
+                buttonField.innerHTML +=
+                    "<div class= 'buttonbox'>" +
+                        "<input type='button' onclick=\"updatePath('" + this.badPath + "')\" value = '" + this.minigameButtons[i] + "'/>" +
+                    "</div>";
+            }
+            else
+            {
+                buttonField.innerHTML +=
                     "<div class= 'buttonbox'>" +
                         "<input type='button' onclick=\"updatePath('" + buttonPath + "')\" value = '" + this.minigameButtons[i] + "'/>" +
                     "</div>";
+            }
         }
-
     }
+
+
 
     //This method will be very messy. Most of the story script will probably run through here.
     //this method updates the storybox, questionbox, and buttonbox with this chapter's fields.
@@ -74,9 +132,6 @@ class Chapter {
         {
             var currentButtonLabel = this.buttonLabels[i]; 
             var buttonPath = "Path" + (i+1);
-
-            console.log("Generating button for " + buttonPath);
-            console.log("Is minigame: " + this.isMinigames[i]);
 
             if (this.isMinigames[i])
             {
@@ -120,7 +175,7 @@ let chapterTotal = 18;
 for (let i = 0; i < chapterTotal; i++)
 {
     storyPages.push(new Map([
-        ["Path1",""],
+        ["Path1",""]
     ]));
 }
 
@@ -233,8 +288,11 @@ storyPages[17].set("Path1", new Chapter(
     ["The end!"],
     "",[]))
 
-//sets a minigame for the scenario where the protagonist battles his dad in chapter 2    
-storyPages[1].get("Path1").setupMinigameFields([true],"He attempts to attack his dad. Choose his attack!",["Gun","Powers"],"BadPath1");
+//sets a minigame for the scenario where the protagonist battles his dad in chapter 2
+// ! This way of setting up minigames is terrible, messier than it needs to be, and ineficient. 
+// ! I will be replacing this method later. At that time, this line MUST to be removed, as the method will no longer exist.
+// Once a proper child class is created, the proper way will be to use that child class's constructor instead of a combination of the parent constructor plus this method.    
+storyPages[1].get("Path1").setupMinigameFields([true],"He attempts to attack his dad. Choose his attack!",["Gun","Powers","Bombs"],"BadPath1");
 
 }
 
@@ -294,7 +352,7 @@ function updatePath(pathNumber)
 }
 
 //This is recursion practice for myself. In terms of the project, this function is to simulate a battle minigame between the user and the npcs. 
-//TODO replace psuedocode with actual code, then impliment
+// I found a different excuse to use recursion. This function wasn't suitable for this program.
 function rockPaperScissors(remainingTries)
 {
     //Base case: If remaining tries is less than 0, return false.

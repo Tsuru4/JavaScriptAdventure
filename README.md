@@ -38,8 +38,11 @@ Libraries：
 
 # Future Work
 
-- [ ] Update html and css pages to match the wireframe.
+- [ ] Update html and css files to match the wireframe.
 - [ ] Apply javascript techniques to update text using buttons.
 - [ ] Create the story up to 3 sections.
 - [ ] Create art work.
 - [ ] Fill out story branches up to 3 time 18.
+- [ ] Write and implement a button/branch class
+- [ ] Write and implement a ChapterWithMinigame childclass.
+- [ ] investigate how to use multiple Javascript files and move the classes to separate files.
