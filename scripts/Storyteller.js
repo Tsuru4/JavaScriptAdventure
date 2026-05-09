@@ -39,6 +39,12 @@ class Chapter {
         this.badPath = badPath;
     }
 
+    updateButtonFieldStyles(integer)
+    {
+        var buttonFieldStyle = document.getElementById('button-field').style;
+        buttonFieldStyle.gridTemplateColumns = "repeat(" + integer + ", 1fr)";
+    }
+
     //recursively shuffle an array
     //returns the shuffled array.
     shuffleArray(oldArray){
@@ -105,6 +111,7 @@ class Chapter {
                     "</div>";
             }
         }
+        this.updateButtonFieldStyles(this.minigameButtons.length);
     }
 
 
@@ -152,6 +159,7 @@ class Chapter {
             //The minigame map will not affect all buttons. Buttons that it does affect will need to be changed.
             //minigame = [affectedPathIndex, minigameExplanation, minigameButtons, newPaths]
         }
+        this.updateButtonFieldStyles(this.buttonLabels.length);
     }
 }
 
