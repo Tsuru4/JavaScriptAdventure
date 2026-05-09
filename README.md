@@ -6,8 +6,7 @@ This main function of this software is to share a "choose your own adventure sto
 
 Describe your purpose for writing this software.
 
-[Software Demo Video](http://youtube.link.goes.here)
-Note: demo video will ideally be 4-5 minutes and should focus explaining what I learned about the syntax.
+[Software Demo Video](https://youtu.be/fGutxvzLUAw)
 
 # Development Environment
 
@@ -24,7 +23,7 @@ Languages:
 
 Libraries：
 
-
+- https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js
 
 # Useful Websites
 
@@ -38,8 +37,8 @@ Libraries：
 
 # Future Work
 
-- [ ] Update html and css files to match the wireframe.
-- [ ] Apply javascript techniques to update text using buttons.
+- [ ] Update html and css files to fully match my wireframe.
+- [x] Apply javascript techniques to update text using buttons.
 - [ ] Create the story up to 3 sections.
 - [ ] Create art work.
 - [ ] Fill out story branches up to 3 time 18.

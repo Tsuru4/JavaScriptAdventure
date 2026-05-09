@@ -114,8 +114,6 @@ class Chapter {
         this.updateButtonFieldStyles(this.minigameButtons.length);
     }
 
-
-
     //This method will be very messy. Most of the story script will probably run through here.
     //this method updates the storybox, questionbox, and buttonbox with this chapter's fields.
     updateStorybox(){
