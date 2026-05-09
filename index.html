@@ -6,6 +6,16 @@
     <title>Choose your own adventure | Home</title>
     <link rel="stylesheet" type="text/css" href="styles/styles.css" />
     <script type = "text/javascript" src = "scripts/Storyteller.js"> </script>
+    
+    <!-- This is a test of CDN links using jQuery. Its usage here is very simple; it hides the headings when the 'Hello World' button is clicked.-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#hello-button").click(function(){
+                $("h1").hide();
+            });
+        });
+    </script>
 </head>
 <body>
     <div id="contents">
@@ -16,7 +26,7 @@
             <main>
                 <div id="long-artbox"></div>
                 <div id="storybox">
-                    <input type="button" onclick = "sayHello()" value = "Click me!"/> 
+                    <input id="hello-button" type="button" onclick = "sayHello()" value = "Click me!"/> 
                     <h1>Choose Your Own Adventure</h1>
                     <p>This site is still under development</p>
                     <p>Once complete, it will present to you a choose your own adventure story.</p>
