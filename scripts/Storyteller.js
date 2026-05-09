@@ -216,23 +216,43 @@ storyPages[1].set("Path4", new Chapter(
     ["Stop him"]));
 
 storyPages[2].set("Path1", new Chapter(
-    ["The protagonist wants to leave home."],
+    ["He fights desperately to stand up against his father's supervillain reign of terror. His oldest brother and some of their friends join our protagonist. Using a laser pistol developed by one of his father's minions, he managed to hit his father's leg, but ultimately, both sides have superpower, and the other side has a lot more experience.", "Our protagonist lost the battle, and in a panic, he and his allies are forced to flee."],
     "Where will he go?",
-    ["Anywhere"]));
+    ["Wander solo", "Follow brother", "Follow friend", "Stay in town"]));
+
+storyPages[2].set("BadPath1", new Chapter(
+    ["The protagonist was beaten badly by his father. He learned a valuable lesson about sticking to his strengths. Luckily, he is still just a kid, so his father only grounded him.", "Our protagonist hates being grounded. He wants to run away from home now."],
+    "Where will he go?",
+    ["Anywhere but here"]));
 
 storyPages[3].set("Path1", new Chapter(
-    ["Protagonist is hungry."],
-    "",
-    ["Get a job"]))
+    ["Our protagonist takes a small plane and escapes south. Eventually he reaches a desert city, and just in time, because the plane ran our of fuel! This place should be far beyond his father's reach!","Almost immediately, however, he realizes his problems aren't over yet. He has no food, no shelter, and no money. He is a refugee in a strange land, and everyone views him with distrust.","He manages to salvage his plane into a makeshift home, and he uses his powers to repair the plane's air conditioner.", "But he is still starving and broke."],
+    "How will he eat tonight?",
+    ["Get a job"]));
+
+storyPages[3].set("Path2", new Chapter(
+    ["Our protagonist follows his brother to the southeast, to their mother's homeland. They reach an ancient city, and take shelter there. Their father tries to follow them, but by working together, the two boys manage to hide their trail.","Now, they are refugees in their mother's homeland. They are living in an alleyway on the outskirts of the city, and they have no money and no food."],
+    "How will the boys eat tonight?",
+    ["Get a job"]));
+
+storyPages[3].set("Path3", new Chapter(
+    ["Our protagonist follows a friend west. Together, they cross the sea. Just as they are about to reach land, however, a sea monster attacks them, and he is seperated from his friend.","After an epic battle against the sea monster, he eventually escapes its grasp and swims the rest of the way to the shore. He reaches a large city by the coast and starts to wander the streets. It's an enormous city, but not very friendly. He has no food, and now he is starving."],
+    "How will he eat tonight?",
+    ["Get a job"]));
+
+storyPages[3].set("Path4", new Chapter(
+    ["Out protagonist tries to hide in the ruins underneath the city. His father catches him, however. He is grounded for life."],
+    "What will he do now?",
+    ["Get a job(?)"]));
 
 storyPages[4].set("Path1", new Chapter(
-    [""],
+    ["He tries looking for a job, but no one will hire him."],
     "How should he spend his free time?",
     ["Work out"]))
 
 storyPages[5].set("Path1", new Chapter(
-    ["Riots are breaking out throughout the local kingdom. Protagonist sees a girl being attacked. "],
-    "",
+    ["Riots are breaking out throughout the local kingdom. Protagonist sees a girl being attacked."],
+    "Will he save her?",
     ["Save her"]))
 
 storyPages[6].set("Path1", new Chapter(
