@@ -248,71 +248,76 @@ storyPages[3].set("Path4", new Chapter(
 storyPages[4].set("Path1", new Chapter(
     ["He tries looking for a job, but no one will hire him."],
     "How should he spend his free time?",
-    ["Work out"]))
+    ["Work out"]));
 
 storyPages[5].set("Path1", new Chapter(
-    ["Riots are breaking out throughout the local kingdom. Protagonist sees a girl being attacked."],
+    ["Our protagonist decides to work out in his free time. After many years of rigorous training, he grows up to be a strong young man.", "Now, riots are breaking out throughout the local kingdom. His father tries to make an ambitious bid to take over it. This time, our hero is ready. Together with his brother, they take down their father and his minions.", "However, the riots are still ongoing. A few weeks later, our protagonist sees a girl being attacked by rioters."],
     "Will he save her?",
-    ["Save her"]))
+    ["Save her"]));
 
 storyPages[6].set("Path1", new Chapter(
-    ["A supervillain decides to attack him."],
-    "",
-    ["Run away"]))
+    ["He saved the girl! She is impressed by his act of heroism. She's quite pretty too. Our protagonist likes how that turned out.", "The next day, while he is thinking about how it felt to be a hero, a supervillain suddenly attacks him!"],
+    "How will he deal with this supervillain?",
+    ["Fight back","Run away"]));
 
 storyPages[7].set("Path1", new Chapter(
-    ["The people see him as a hero. The mayor hates him."],
+    ["He fights back against the supervillain, and wins easily. The local people begin to hail him as a hero. He's quite popular now!", "This popularity doesn't come without earning some grudges, though. The new mayor hates him, and says that people don't need vigilantes when the police force is perfectly capable of protecting the people."],
+    "Our protagonist is considering making a name for himself as a full time superhero. Should he?",
+    ["Live up to expectations"]));
+
+storyPages[7].set("Path2", new Chapter(
+    ["He runs away in fear. The end"],
     "",
-    ["Live up to expectations"]))
+    []));
 
 storyPages[8].set("Path1", new Chapter(
-    ["A girl wants to date him."],
+    ["As a superhero, he is more famous than ever. He is especially popular with the ladies. A girl wants to date him."],
     "What should he do?",
-    ["Accept"]))
+    ["Accept"]));
 
 storyPages[9].set("Path1", new Chapter(
-    ["A gang wants him to look the other way."],
+    ["A gang wants him to look the other way. They are offering a hefty bribe."],
     "What does he do?",
-    ["Capture them"]))
+    ["Capture them"]));
 
 storyPages[10].set("Path1", new Chapter(
     ["A superhero is committing crime."],
     "What should our protagonist do?",
-    ["Confront him"]))
+    ["Confront him"]));
 
 storyPages[11].set("Path1", new Chapter(
     ["A girl wants to be his sidekick."],
     "Should he accept?",
-    ["Work alone"]))
+    ["Work alone"]));
 
 storyPages[12].set("Path1", new Chapter(
     ["A girl is flirting with him."],
     "What should he do?",
-    ["Flirt back"]))
+    ["Flirt back"]));
 
 storyPages[13].set("Path1", new Chapter(
     ["A world domination organization invites him to a meeting."],
     "Does he accept?",
-    ["No"]))
+    ["No"]));
 
 storyPages[14].set("Path1", new Chapter(
     ["The organization reveals that an alien invasion is approaching. They need to conquer his city as an asset to repel the invasion."],
     "",
-    ["Save the earth his own way"]))
+    ["Save the earth his own way"]));
 
 storyPages[15].set("Path1", new Chapter(
     ["The aliens invade. They want you to join them."],
     "What will you do?",
-    ["Take down the leader", "Close the portal"]))
+    ["Take down the leader", "Close the portal"]));
 
 storyPages[16].set("Path1", new Chapter(
     ["..."],
     "",
-    ["Proceed"]))
+    ["Proceed"]));
 
 storyPages[17].set("Path1", new Chapter(
     ["The end!"],
-    "",[]))
+    "",[]));
 
 //sets a minigame for the scenario where the protagonist battles his dad in chapter 2
 // ! This way of setting up minigames is terrible, messier than it needs to be, and ineficient. 
